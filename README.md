@@ -13,6 +13,15 @@ Patched binary packages are available, see [releases](https://github.com/lsdch/c
 dpkg -i libcscreensaver0_5.7.0_amd64.deb cinnamon-screensaver_5.7.0_amd64.deb
 ```
 
+**Uninstall**
+```bash
+# Get all available versions
+apt show cinnamon-screensaver -a
+# pick a version from the official repository
+# i.e. not the installed one, then:
+sudo apt install libcscreensaver0=<VERSION> cinnamon-screensaver=<VERSION>
+```
+
 ### Program Entry
 
 Main entry is from /usr/bin/cinnamon-screensaver to cinnamon-screensaver-main.py, which
