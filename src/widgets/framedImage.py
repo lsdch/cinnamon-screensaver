@@ -8,6 +8,9 @@ from gi.repository import Gtk, GdkPixbuf, Gio, GLib, GObject, Gdk
 
 from util import utils, trackers
 
+from PIL import Image
+
+
 MAX_IMAGE_SIZE = 320
 MAX_IMAGE_SIZE_LOW_RES = 200
 
@@ -60,9 +63,18 @@ class FramedImage(Gtk.Image):
     def set_image_internal(self, path):
         pixbuf = None
         scaled_max_size = self.max_size * self.get_scale_factor()
+        is_animated = False
+        try: 
+            with Image.open(path) as im:
+                is_animated = im.is_animated
+        except any as e: 
+            message = "Failed to load image from file '%s'" % path
 
         try:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file(path)
+            if is_animated:
+                pixbuf = GdkPixbuf.PixbufAnimation.new_from_file(path)
+            else: 
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file(path)
         except GLib.Error as e:
             message = "Could not load pixbuf from '%s' for FramedImage: %s" % (path, e.message)
             error = True
@@ -71,16 +83,22 @@ class FramedImage(Gtk.Image):
             if (pixbuf.get_height() > scaled_max_size or pixbuf.get_width() > scaled_max_size) or \
                (self.scale_up and (pixbuf.get_height() < scaled_max_size / 2 or pixbuf.get_width() < scaled_max_size / 2)):
                 try:
-                    pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, scaled_max_size, scaled_max_size)
+                    if is_animated:
+                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, scaled_max_size, scaled_max_size)
+                    else:
+                        pixbuf = GdkPixbuf.PixbufAnimation.new_from_file_at_size(path, scaled_max_size, scaled_max_size)
                 except GLib.Error as e:
                     message = "Could not scale pixbuf from '%s' for FramedImage: %s" % (path, e.message)
                     error = True
 
         if pixbuf:
-            surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf,
+            if is_animated: 
+                self.set_from_animation(pixbuf)
+            else:
+                surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf,
                                                            self.get_scale_factor(),
                                                            self.get_window())
-            self.set_from_surface(surface)
+                self.set_from_surface(surface)
             self.emit("surface-changed", surface)
         else:
             print(message)

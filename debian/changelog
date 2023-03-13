@@ -1,3 +1,9 @@
+cinnamon-screensaver (5.7.0) vera; urgency=medium
+
+  * Allow using animated user avatar
+
+ -- Louis Duchemin <ls.duchemin@gmail.com>  Mon, 13 Mar 2023 17:47:25 +0000
+
 cinnamon-screensaver (5.6.3) vera; urgency=medium
 
   [ Michael Webster ]
@@ -320,7 +326,7 @@ cinnamon-screensaver (4.0.0) tessa; urgency=medium
   * all: Remove xscreensaver and webkit support and plugins, simplify widget transitions.
   * info panel: Update the battery status when raising the lock screen.
 
-  [schachmat] 
+  [schachmat]
   * Silence lintian warning about missing man pages.
 
  -- Clement Lefebvre <root@linuxmint.com>  Sat, 03 Nov 2018 10:45:05 +0000
