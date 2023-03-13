@@ -7,5 +7,6 @@ debian/cinnamon-screensaver
 *.substvars
 debian/debhelper-build-stamp
 debian/files
-
-
+.vscode
+.venv
+__pycache__
