@@ -1,5 +1,17 @@
-# Cinnamon Screensaver
-![build](https://github.com/linuxmint/cinnamon-screensaver/actions/workflows/build.yml/badge.svg)
+# Cinnamon Screensaver (animated avatar)
+
+![](preview.gif)
+
+**Just a fork of the official Cinnamon screensaver to handle animated user avatars as GIF images.**
+
+Patched binary packages are available, see [releases](https://github.com/lsdch/cinnamon-screensaver/releases).
+
+**Usage:** copy a GIF avatar to `~/.face`
+
+**Installation:**
+```bash
+dpkg -i libcscreensaver0_5.7.0_amd64.deb cinnamon-screensaver_5.7.0_amd64.deb
+```
 
 ### Program Entry
 
